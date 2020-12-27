@@ -1,15 +1,12 @@
-pipeline {
-    environment {
-    registry = "peppe2794/test"
-    registryCredential = 'dockerhub'
-    }
-    agent any
-    stages {
-        stage('Build') {
-            steps {
-                echo "BUILD"
-                docker.build registry + ":$BUILD_NUMBER"
-            }
-        }
+node {
+
+    checkout scm
+
+    docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
+
+        def customImage = docker.build("miltonc/dockerwebapp")
+
+        /* Push the container to the custom Registry */
+        customImage.push()
     }
 }
