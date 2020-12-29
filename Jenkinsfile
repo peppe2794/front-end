@@ -14,7 +14,7 @@ pipeline {
         }
       }
     }
-    stage('Deploy Image') {
+    stage('Push Image') {
       steps{
         script {
           docker.withRegistry( '', registryCredential ) {
@@ -23,7 +23,11 @@ pipeline {
         }
       }
     }
-  }
+    stage('Deploy Image') {
+      steps{
+        ansiblePlaybook credentialsId: 'node', disableHostKeyChecking: true, extras: 'DOCKER_TAG="${DOCKER_TAG}"', installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'Deploy-docker.yaml'
+      }
+ }
 }
 def getVersion(){
   def commitHash = sh returnStdout: true, script: 'git rev-parse --short HEAD'
