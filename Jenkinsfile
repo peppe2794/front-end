@@ -27,6 +27,7 @@ pipeline {
       steps{
         ansiblePlaybook credentialsId: 'node', disableHostKeyChecking: true, extras: 'DOCKER_TAG="${DOCKER_TAG}"', installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'Deploy-docker.yaml'
       }
+    }♦
  }
 }
 def getVersion(){
