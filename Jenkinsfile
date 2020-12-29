@@ -3,14 +3,14 @@ pipeline {
     registry = "peppe2794/test"
     registryCredential = 'dockerhub'
     dockerImage = ''
-    DOCKER_TAG = getVersion()
+    DOCKER_TAG = getVersion().trim()
   }
   agent any
   stages {
     stage('Building image') {
       steps{
         script {
-          dockerImage = docker.build("$registry:$DOCKER_TAG .")
+          dockerImage = docker.build("$registry:$DOCKER_TAG")
         }
       }
     }
