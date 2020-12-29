@@ -3,7 +3,7 @@ pipeline {
     registry = "peppe2794/test"
     registryCredential = 'dockerhub'
     dockerImage = ''
-    DOCKER_TAG = "getVersion()"
+    DOCKER_TAG = getVersion()
   }
   agent any
   stages {
