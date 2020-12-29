@@ -25,4 +25,8 @@
       pip:
         name: docker-py
         state: present
-        
+    - name: Start the Container
+        name: front-end
+        image: "peppe2794/test:{{DOCKER_TAG}}"
+        published_ports:
+          - 0.0.0.0:12:8079
