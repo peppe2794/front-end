@@ -3,6 +3,7 @@ pipeline {
     registry = "peppe2794/test"
     registryCredential = 'dockerhub'
     dockerImage = ''
+    DOCKER_TAG = "getVersion()"
   }
   agent any
   stages {
@@ -23,4 +24,8 @@ pipeline {
       }
     }
   }
+}
+def getVersion(){
+  def commitHash = sh returnStdout: true, script: 'git rev-parse --short HEAD'
+  retunr commitHash
 }
