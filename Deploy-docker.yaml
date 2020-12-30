@@ -18,20 +18,42 @@
       apt_repository:
         repo: deb https://download.docker.com/linux/ubuntu bionic stable
         state: present
+        
     - name: Update apt and install docker-ce
       apt: name=docker-ce state=latest
+      
     - name: Install python pip
       apt:
         name: python3-pip
         state: present
-    - name: install docker-py python module
-      pip:
-        name: docker-py
-        state: present
-    - name: Start the container
+        
+     - name: install docker-compose
+       pip:
+         name: docker-compose
+         state: present
+         
+    - name: copy Docker Compose files
+      copy:
+        src: docker-compose.yml
+        dest: /tmp/docker-compose.yml     
+    
+    - name: Stop running version
+      docker_container:
+        name: front-end
+        state: absent
+    
+    - name: Stop running sevice in my docke-compose
+      docker_compose:
+        project_src: /tmp
+        state: absent 
+    
+    - name: run the service defined in my docke-compose
+      docker_compose:
+        project_src: /tmp
+        
+    - name: Start current version container
       docker_container:
         name: front-end
         image: "peppe2794/test:{{DOCKER_TAG}}"
         state: started
-        published_ports:
-          - 0.0.0.0:12:8079
+        network-mode: "tmp_default"
