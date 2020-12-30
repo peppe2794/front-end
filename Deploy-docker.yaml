@@ -54,4 +54,4 @@
         name: front-end
         image: "peppe2794/test:{{DOCKER_TAG}}"
         state: started
-        network-mode: "tmp_default"
+        network_mode: "tmp_default"
