@@ -5,6 +5,9 @@ pipeline {
     dockerImage = ''
     DOCKER_TAG = getVersion().trim()
   }
+  tools{
+    terraform 'terraform-11'
+  }
   agent any
   stages {
     stage('Building image') {
