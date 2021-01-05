@@ -6,7 +6,7 @@ pipeline {
     DOCKER_TAG = getVersion().trim()
   }
   tools{
-    terraform 'terraform-11'
+    terraform 'terraform11'
   }
   agent any
   stages {
