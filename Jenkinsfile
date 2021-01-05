@@ -37,6 +37,7 @@ pipeline {
         steps{
             sh label: '', script: 'terrafom apply --auto-approve'
         }
+    }
     stage('Deploy Image') {
       steps{
         ansiblePlaybook credentialsId: 'node', disableHostKeyChecking: true, extras: "-e DOCKER_TAG=${DOCKER_TAG}", installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'Deploy-docker.yaml'
