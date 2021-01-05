@@ -33,12 +33,12 @@ pipeline {
     }
     stage('Provisioning with TERRAFORM - Init'){
         steps{
-            sh label: '', script: 'terrafom init'
+            sh label: '', script: 'terraform init'
         }
     }
     stage('Provisioning with TERRAFORM - Apply'){
         steps{
-            sh label: '', script: 'terrafom apply --auto-approve'
+            sh label: '', script: 'terraform apply --auto-approve'
         }
     }
     stage('Deploy Image') {
