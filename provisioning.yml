@@ -12,9 +12,9 @@
       clone: deploy
       timeout: 300
   - name: Loading set up for Virtual Machine. Assigning IP automatically, sockets, cores and memory for Virtual Machine
-    shell: A=$(qm list | grep "ciao"  | awk '{print $1}'); qm set $A -memory 3072 -sockets 1 -cores 1
+    shell: A=$(qm list | grep "Ansible"  | awk '{print $1}'); qm set $A -memory 3072 -sockets 1 -cores 1
   - name: Increasing disk if it is necessary
-    shell: A=$(qm list |grep ciao | awk '{print $1}'); qm resize $A virtio0 +10G
+    shell: A=$(qm list |grep Ansible | awk '{print $1}'); qm resize $A virtio0 +10G
   - name: Waiting to apply cloud init changes in disk
     wait_for:
       timeout: 5
