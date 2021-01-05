@@ -23,7 +23,7 @@
       api_user : root@pam
       api_password: 27942794
       api_host : 192.168.1.99
-      name : Anisible
+      name : Ansible
       node : pve
       state : started
       timeout: 300
