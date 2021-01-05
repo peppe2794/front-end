@@ -23,7 +23,7 @@ pipeline {
         }
       }
     }
-    stage ('Provisioning')[
+    stage ('Provisioning'){
       steps{
         ansiblePlaybook become: true, credentialsId: 'pve', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'provisioning.yml'
       }
