@@ -23,6 +23,11 @@ pipeline {
         }
       }
     }
+    stage ('Provisioning')[
+      steps{
+        ansiblePlaybook become: true, credentialsId: 'pve', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'provisioning.yml'
+      }
+     }
     stage('Deploy Image') {
       steps{
         ansiblePlaybook credentialsId: 'node', disableHostKeyChecking: true, extras: "-e DOCKER_TAG=${DOCKER_TAG}", installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'Deploy-docker.yaml'
