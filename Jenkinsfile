@@ -4,9 +4,7 @@ pipeline {
     registryCredential = 'dockerhub'
     dockerImage = ''
     DOCKER_TAG = getVersion().trim()
-  }
-  tools{
-    terraform 'terraform'
+    IMAGE="test:"
   }
   agent any
   stages {
@@ -26,28 +24,15 @@ pipeline {
         }
       }
     }
-    stage ('Provisioning with ANSIBLE'){
-      steps{
-        ansiblePlaybook become: true, credentialsId: 'pve', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'provisioning.yml'
-      }
-    }
-    stage('Provisioning with TERRAFORM - Init'){
-        steps{
-            sh label: '', script: 'terraform init'
-        }
-    }
-    stage('Provisioning with TERRAFORM - Apply'){
-        steps{
-            sh label: '', script: 'terraform apply --auto-approve'
-        }
-    }
-    stage('Deploy Image') {
-      steps{
-        ansiblePlaybook credentialsId: 'node', disableHostKeyChecking: true, extras: "-e DOCKER_TAG=${DOCKER_TAG}", installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'Deploy-docker.yaml'
-      }
-    }
  }
+  post{
+    success{
+      echo 'Post success'
+      build job: 'socks_application', parameters: [string (value: "$IMAGE"+"$DOCKER_TAG", description: 'Parametro', name: 'FRONT_END')]
+    }
+  }
 }
+
 def getVersion(){
   def commitHash = sh returnStdout: true, script: 'git rev-parse --short HEAD'
   return commitHash
