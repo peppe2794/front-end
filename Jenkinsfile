@@ -12,7 +12,7 @@ pipeline {
       steps{
         tool name: 'NodeJS', type: 'nodejs'
         withSonarQubeEnv(installationName: 'Sonarqube', credentialsId: 'Sonarqube') {
-          sh "${tool("sonarqube")}/bin/sonar-scanner"
+          sh "${tool("sonar_scanner")}/bin/sonar-scanner"
         }
       }
     }
