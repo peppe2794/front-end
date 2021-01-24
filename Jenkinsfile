@@ -9,10 +9,12 @@ pipeline {
   agent any
   stages {
     stage('SonarQube analysis'){
-      tool name: 'NodeJS', type: 'nodejs'
-      tool name: 'sonar_scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-      withSonarQubeEnv(credentialsId: 'Sonarqube') {
-        sh "${sonar_scanner}/bin/sonar-scanner"
+      steps{
+        tool name: 'NodeJS', type: 'nodejs'
+        tool name: 'sonar_scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+        withSonarQubeEnv(credentialsId: 'Sonarqube') {
+          sh "${sonar_scanner}/bin/sonar-scanner"
+        }
       }
     }
     stage('Building image') {
