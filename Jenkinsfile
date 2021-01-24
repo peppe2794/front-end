@@ -10,8 +10,8 @@ pipeline {
   stages {
     stage('SonarQube analysis'){
       steps{
-        tool name: 'NodeJS', type: 'nodejs'
         withSonarQubeEnv(installationName: 'Sonarqube', credentialsId: 'Sonarqube') {
+          tool name: 'NodeJS', type: 'nodejs'
           sh "${tool("sonar_scanner")}/bin/sonar-scanner"
         }
       }
