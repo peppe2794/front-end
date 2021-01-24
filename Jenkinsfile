@@ -12,7 +12,7 @@ pipeline {
       steps{
         tool name: 'NodeJS', type: 'nodejs'
         tool name: 'sonar_scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-        withSonarQubeEnv(credentialsId: 'Sonarqube') {
+        withSonarQubeEnv(installationName: 'Sonarqube', credentialsId: 'Sonarqube') {
           sh "${sonar_scanner}/bin/sonar-scanner"
         }
       }
