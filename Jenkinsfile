@@ -6,12 +6,14 @@ pipeline {
     DOCKER_TAG = getVersion().trim()
     IMAGE="test:"
   }
+  tools {
+    nodejs 'NodeJS'
+ }
   agent any
   stages {
     stage('SonarQube analysis'){
       steps{
         withSonarQubeEnv(installationName: 'Sonarqube', credentialsId: 'Sonarqube') {
-          tool name: 'NodeJS', type: 'nodejs'
           sh "${tool("sonar_scanner")}/bin/sonar-scanner"
         }
       }
