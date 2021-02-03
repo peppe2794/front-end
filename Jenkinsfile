@@ -4,7 +4,7 @@ pipeline {
     registryCredential = 'dockerhub'
     dockerImage = ''
     DOCKER_TAG = getVersion().trim()
-    IMAGE="test:"
+    IMAGE="test"
   }
   tools {
     nodejs 'NodeJS'
@@ -24,6 +24,14 @@ pipeline {
           dockerImage = docker.build("$registry:$DOCKER_TAG")
         }
       }
+    }
+    stage('Static Security Assesment'){
+      steps{
+        sh 'docker run --name ${IMAGE} -t -d $registry:${DOCKER_TAG}'
+        sh 'inspec exec https://github.com/dev-sec/linux-baseline -t docker://${IMAGE} --chef-license=accept || true'
+        sh 'docker stop ${IMAGE}'
+        sh 'docker container rm ${IMAGE}'
+     }
     }
     stage('Push Image') {
       steps{
