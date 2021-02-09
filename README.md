@@ -50,7 +50,7 @@ Front-end application written in [Node.js](https://nodejs.org/en/) that puts tog
 
 **Make sure that the microservices are up & running**
 
-## Unit & Functional tests:
+## Unit & Functional tests::
 
 ```
 make test
