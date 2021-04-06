@@ -36,7 +36,7 @@ pipeline {
           sh 'git remote set-url origin "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/front-end.git"'
           sh 'git add Results/*'
           sh 'git commit -m "Add report File"'
-          sh 'git push origin HEAD:main'
+          sh 'git push origin HEAD:master'
           
         }
      }
