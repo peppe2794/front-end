@@ -1,10 +1,10 @@
 pipeline {
   environment {
-    registry = "peppe2794/test"
+    registry = "peppe2794/frontend"
     registryCredential = 'dockerhub'
     dockerImage = ''
     DOCKER_TAG = getVersion().trim()
-    IMAGE="test"
+    IMAGE="frontend"
   }
   tools {
     nodejs 'NodeJS'
@@ -31,6 +31,14 @@ pipeline {
         sh 'inspec exec https://github.com/dev-sec/linux-baseline -t docker://${IMAGE} --chef-license=accept || true'
         sh 'docker stop ${IMAGE}'
         sh 'docker container rm ${IMAGE}'
+        
+        withCredentials([usernamePassword(credentialsId: 'GIT', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {        
+          sh 'git remote set-url origin "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/front-end.git"'
+          sh 'git add Results/*'
+          sh 'git commit -m "Add report File"'
+          sh 'git push origin HEAD:main'
+          
+        }
      }
     }
     stage('Push Image') {
@@ -46,7 +54,7 @@ pipeline {
   post{
     success{
       echo 'Post success'
-      build job: 'socks_application', parameters: [string (value: "$IMAGE"+":"+"$DOCKER_TAG", description: 'Parametro', name: 'FRONT_END')]
+      build job: 'socks_application', parameters: [string (value: "$registry"+":"+"$DOCKER_TAG", description: 'Parametro', name: 'FRONT_END')]
     }
   }
 }
